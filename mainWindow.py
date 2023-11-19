@@ -8,16 +8,18 @@ class MainWindow(QMainWindow):
         self.initUI()
         
     def initUI(self):
-        
+        #initialise UI
         self.app = app
         self.setWindowTitle("Main Window")
         
+        #Create menu bar with name "File" and sub menu "Add File" 
         menu_bar = self.menuBar()
         file_menu = menu_bar.addMenu("&File")
         Browse_action = file_menu.addAction("Add File")
         Browse_action.triggered.connect(self.Browseapp)
         
     def Browseapp(self):
+        #Opens file browser and saves chosen files name
         fname  = QFileDialog.getOpenFileName(self, 'Open file')
         print("name of file", fname[0])
         
