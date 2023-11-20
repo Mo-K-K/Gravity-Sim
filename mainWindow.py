@@ -1,5 +1,7 @@
 import sys
 from PyQt5.QtWidgets import QHBoxLayout, QLabel, QApplication, QMainWindow, QVBoxLayout, QPushButton, QWidget, QDialog, QApplication, QFileDialog
+from Secondwindow import *
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -11,11 +13,13 @@ class MainWindow(QMainWindow):
         #initialise UI
         self.setWindowTitle("Main Window")
         self.setGeometry(200, 200, 800, 600)
-        self.fname = None
         
         main_widget = QWidget(self)
         self.setCentralWidget(main_widget)
         layout = QVBoxLayout(main_widget)
+        self.Window = None
+        self.filename = None
+        self.nbuttons = 0
         
         #Create menu bar with name "File" and sub menu "Add File" 
         self.menu_bar = self.menuBar()
@@ -27,11 +31,26 @@ class MainWindow(QMainWindow):
         self.Label = QLabel("File Name: ")
         layout.addWidget(self.Label)
         
+        #Create button to create second window
+        self.Button = QPushButton("launch")
+        layout.addWidget(self.Button)
         
-    def Browseapp(self):
+        self.Button.clicked.connect(self.show_second)
+        
+    def show_second(self):
+        if self.Window is None:
+            self.Window = secondWindow(name=self.filename, num_buttons=self.nbuttons)
+        self.Window.show()
+        
+    
+    def Browseapp(self) -> str:
+        '''
+        Uses QFileDialog so user can select files containing ephemerides
+        '''
         #Opens file browser and saves chosen files name
         fname  = QFileDialog.getOpenFileName(self, 'Open file')
-        self.Label.setText("File Name: " + str(fname[0]))
+        self.Label.setText("File Name: " + fname[0])
+        self.filename = fname[0]
         
         
 if __name__ == '__main__':
@@ -39,4 +58,6 @@ if __name__ == '__main__':
     window = MainWindow()
     window.show()
     
+    
     sys.exit(app.exec_())
+        
