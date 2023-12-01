@@ -10,6 +10,8 @@ class MainWindow(QMainWindow):
         self.initUI()
         
     def initUI(self):
+        '''initialises the UI'''
+        
         #initialise UI
         self.setWindowTitle("Main Window")
         self.setGeometry(200, 200, 800, 600)
@@ -19,7 +21,7 @@ class MainWindow(QMainWindow):
         layout = QVBoxLayout(main_widget)
         self.Window = None
         self.filename = None
-        self.nbuttons = 0
+        self.nbuttons = 5
         
         #Create menu bar with name "File" and sub menu "Add File" 
         self.menu_bar = self.menuBar()
@@ -38,10 +40,11 @@ class MainWindow(QMainWindow):
         self.Button.clicked.connect(self.show_second)
         
     def show_second(self):
+        '''Opens the second window when the launch button is pressed'''
         if self.Window is None:
             self.Window = secondWindow(name=self.filename, num_buttons=self.nbuttons)
         self.Window.show()
-        
+           
     
     def Browseapp(self) -> str:
         '''
@@ -51,6 +54,15 @@ class MainWindow(QMainWindow):
         fname  = QFileDialog.getOpenFileName(self, 'Open file')
         self.Label.setText("File Name: " + fname[0])
         self.filename = fname[0]
+        
+        
+class infoOfBodies:
+    def __init__(self, file):
+        self.file = file
+        
+    def GetInfoFromFile(self):
+        None
+        
         
         
 if __name__ == '__main__':
