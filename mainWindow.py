@@ -1,7 +1,6 @@
 import sys
 from PyQt5.QtWidgets import QHBoxLayout, QLabel, QApplication, QMainWindow, QVBoxLayout, QPushButton, QWidget, QDialog, QApplication, QFileDialog
 from Secondwindow import *
-from Bodies import *
 
 
 class MainWindow(QMainWindow):
@@ -22,7 +21,6 @@ class MainWindow(QMainWindow):
         layout = QVBoxLayout(main_widget)
         self.Window = None
         self.filenames = []
-        self.bodies = []
         self.nbuttons = 5
         
         #Create menu bar with name "File" and sub menu "Add File" 
@@ -46,13 +44,13 @@ class MainWindow(QMainWindow):
         self.Button.clicked.connect(self.launch)
         
     def launch(self):
-        self.GetInfoFromFile()
+        #used to call method which created bodies objects using filenames, implented that method into PlotOfParticles class, as objects werent initialising properly
         self.show_second()
         
     def show_second(self):
         '''Opens the second window when the launch button is pressed'''
         if self.Window is None:
-            self.Window = secondWindow(name=self.bodies, num_buttons=self.nbuttons)
+            self.Window = secondWindow(name=self.filenames, num_buttons=self.nbuttons)
         self.Window.show()
            
     
@@ -68,42 +66,7 @@ class MainWindow(QMainWindow):
         for name in self.filenames:
             names = name[64:-4] + " " + names
         self.Label2.setText("Files selected: " + names)
-        
-    def GetInfoFromFile(self):
-        '''gets information from the selected file and produces an object.
-        This is done by calling the class Bodies'''
-        #pos is the initial positions of the body and vec are the initial velocites
-        for x in range(len(self.filenames)):
-            pos=[]
-            vec=[]
-            names = self.filenames[x]
-            name = names[5:-4]
-            with open("test/Mars.txt") as file:
-                for line in file:
-                    if line[:4] == " X =":
-                        pos.append(float(line[4:26]))
-                        pos.append(float(line[30:52]))
-                        pos.append(float(line[56:78]))
-                    if line[:4] == " VX=":
-                        vec.append(float(line[4:26]))
-                        vec.append(float(line[30:52]))
-                        vec.append(float(line[56:78]))
-                        break
-                    
-            self.bodies.append(Bodies(
-                position=np.array(pos),
-                velocity=np.array(vec),
-                acceleration=np.array([0, 0, 0]),
-                name = name,
-                mass = 100
-            ))
-        
-            
-
-        
-        
-        
-        
+    
 if __name__ == '__main__':
     app=QApplication(sys.argv)
     window = MainWindow()

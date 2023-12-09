@@ -35,6 +35,6 @@ class secondWindow(QMainWindow):
     def DiagramOfBodies(self):
         '''Opens the window which shows the system animation'''
         if self.Window is None:
-            self.Window = SystemAnimation(nbodies = self.num_buttons)
+            self.Window = SystemAnimation(bodies = self.name)
         self.Window.show()
         

@@ -1,21 +1,26 @@
 import numpy as np
-import math
+
 
 class Bodies:
     def __init__(
         self,
-        position = np.array([0, 0, 0], dtype = float),
-        velocity = np.array([0, 0, 0], dtype = float),
+        position = np.array([0, 0, 0], dtype=float),
+        velocity = np.array([0, 0, 0], dtype=float),
         acceleration=np.array([0, 0, 0], dtype = float),
         name = None,
         mass = 1.0
     ):
-        self.position = np.copy(np.asfarray(position))
-        self.velocity = np.copy(np.asfarray(velocity))
+        self.position =  np.copy(np.asfarray(position))
+        self.velocity =  np.copy(np.asfarray(velocity))
         self.acceleration = np.copy(np.asfarray(acceleration))
         self.name = name
         self.SetMass(mass)
         self.G = 6.67408E-11
+        
+        
+    def __str__(self):
+        return "Particle: {0}, Mass: {1:.3e}, Position: {2}, Velocity: {3}, Acceleration: {4}".format(self.name, self.mass, self.position, self.velocity, self.acceleration
+        )
         
     def SetMass(self, mass):
         if mass < 0:
@@ -28,18 +33,23 @@ class Bodies:
         i = self.position + self.velocity*deltaT
         j = self.velocity + self.acceleration*deltaT
         
-        #update vel and pos arrays
-        self.positon = i 
+        #update arrays
+        self.position = i
         self.velocity = j
+        #print("hopefully updated the velocity and position of: ", self.name, "now is: ", self.velocity, self.position)
         
     def gravacc(self, body):
         '''calculates new acceralation between object and body due to gravity'''
         
         r = self.position-body.position #vector between the bodies
         mag_r = np.linalg.norm(r) #magnitude of vector between bodies
-        
-        mag_Acc = -(self.G*body.mass)/(mag_r**2)
-        self.Acc = mag_Acc*((r)/(mag_r))
+        if mag_r == 0:
+            Acc = 0
+        else:
+            mag_Acc = -(self.G*body.mass)/(mag_r**2)
+            Acc = mag_Acc*((r)/(mag_r))
+        self.acceleration = Acc
+        #print("updated the acceleration of: ", self.name)
         
         
            
