@@ -24,16 +24,21 @@ class SystemAnimation(QMainWindow):
         super().__init__()
         #
         self.nbodies = len(bodies)
-        self.filenames = bodies
-        self.particles = np.random.randn(self.nbodies, 2)
         #
-        self.bodies = []
+        self.bodies = bodies
         self.colours = self.randomisecolours(exclude='navy')
+        self.initparticlesx = [self.bodies[i].position[0] for i in range(len(self.bodies))]
+        self.initparticlesy = [self.bodies[j].position[1] for j in range(len(self.bodies))]
+        
+        
+        self.ylim0 = min(self.initparticlesy)
+        self.ylim1 = max(self.initparticlesy)
+        self.xlim0 = min(self.initparticlesx)
+        self.xlim1 = max(self.initparticlesx)
         
         self.initUI()
         
     def initUI(self):
-        self.GetInfoFromFile()
         self.setWindowTitle('System Animation')
         self.setGeometry(100, 100, 800, 600)
         
@@ -49,40 +54,6 @@ class SystemAnimation(QMainWindow):
         
         #create animation
         self.ani = animation.FuncAnimation(self.fig, self.updatePlot, frames = 100, interval=50, blit = False)
-        
-    def GetInfoFromFile(self):
-        '''gets information from the selected file and produces an object.
-        This is done by calling the class Bodies'''
-        #pos is the initial positions of the body and vec are the initial velocites
-        for x in range(len(self.filenames)):
-            pos=np.array([0, 0, 0])
-            vec=np.array([0, 0, 0])
-            names = self.filenames[x]
-            name = names[64:-4]
-            with open("test/"+name+".txt") as file:
-                for line in file:
-                    if line[:4] == " X =":
-                        pos[0]=float(line[4:26])
-                        pos[1]=float(line[31:52])
-                        pos[2]=float(line[57:78])
-                    if line[:4] == " VX=":
-                        vec[0]=float(line[4:26])
-                        vec[1]=float(line[30:52])
-                        vec[2]=float(line[57:78])
-                        if name == "Mars":
-                            m = 6.39e23
-                        elif name == "Venus":
-                            m = 4.87e24
-                        break
-                    
-                    
-            self.bodies.append(Bodies(
-                position=pos,
-                velocity=vec,
-                acceleration=np.array([0, 0, 0]),
-                name = name,
-                mass = m
-            ))
         #self.bodies.append(Bodies(name = 'test'))
 
         
@@ -115,31 +86,89 @@ class SystemAnimation(QMainWindow):
         self.ax.clear()
         
         self.ax.set_facecolor('navy')
-        self.ax.axis('off')
+        #self.ax.axis('off')
 
         #plot particle with updated position
         self.ax.scatter(self.particlesx, self.particlesy, c='Red')
-        ylim = self.bodies[0].position[1]+self.bodies[1].position[1]
-        xlim = self.bodies[0].position[0]+self.bodies[1].position[0]
-        
-        self.ax.set_xlim(-xlim, xlim)
-        self.ax.set_ylim(-ylim, ylim)
+        #print(self.particlesx, self.particlesy)
+        self.ax.set_xlim(-5e11, 5e11)
+        self.ax.set_ylim(-5e11,5e11)
 
         self.canvas.draw()
 
     def updatenumbers(self):
-        self.bodies[0].gravacc(self.bodies[1])
-        self.bodies[1].gravacc(self.bodies[0])
-        self.bodies[0].update(600)
-        self.bodies[1].update(600)
+        '''
+        for i in range(len(self.bodies)):
+            self.bodies[i].gravacc(self.bodies[:1])
+            self.bodies[:i].gravacc(self.bodies[i])
+        for j in range(len(self.bodies)):
+            self.bodies[j].gravavv(self.bodies[j])
+        '''
+        
+        acc = 0
+        for i in range(self.nbodies):
+            for j in range(self.nbodies):
+                if i != j:
+                    self.bodies[i].gravacc(self.bodies[j], False)
+                    acc += self.bodies[i].acceleration
+            for x in range(200000):
+                self.bodies[i].update(6, accelerate = acc)
+            acc=0
+                    
+            
+        
         self.particlesx = [self.bodies[i].position[0] for i in range(len(self.bodies))]
         self.particlesy = [self.bodies[j].position[1] for j in range(len(self.bodies))]
         
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
+        #tranforms the axis to set the first body at the origin
+        self.particlesx=[0, self.particlesx[1]-self.initparticlesx[0], self.particlesx[2]-self.initparticlesx[0], self.particlesx[3]-self.initparticlesx[0]]
+        self.particlesy=[0, self.particlesy[1]-self.initparticlesy[0], self.particlesy[2]-self.initparticlesx[0], self.particlesx[3]-self.initparticlesy[0]]
+        
 
+if __name__ == "__main__":
+    app=QApplication(sys.argv)
+    earthMass = 2.00e30
+    earthRadius = 696340
+    Sol = Bodies(
+        position=np.array([-1.214048065520218e9, -4.013795987957321e8, 0]),
+        velocity=np.array([8.012077096627646e-5, -1.271120897662364e-5, 0]),
+        acceleration=np.array([0, 0, 0]),
+        name="Sol",
+        mass=earthMass
+        )
+    satPosition = earthRadius + 1.49e11
+    satVelocity = np.sqrt(Sol.G * Sol.mass / satPosition)
 
-    window = SystemAnimation(["C:/Users/rafeh/Desktop/Physics/Programming/PHYS281/Project/test/Mars.txt", "C:/Users/rafeh/Desktop/Physics/Programming/PHYS281/Project/test/Venus.txt"])
+    Earth = Bodies(
+        position=np.array([5.361071004514999e10, 1.365682433995717e11, 0]),
+        velocity=np.array([-2.813245183269979e4, 1.094520152946133e4, 0]),
+        acceleration=np.array([0, 0, 0]),
+        name="Earth",
+        mass=5.9e24
+    )
+    
+    Mars = Bodies(
+        position=np.array([-7.816400366646364e10, 7.443698280209219e10, 0]),
+        velocity=np.array([-2.453487660910571e4, -2.530241055411627e4, 0]),
+        acceleration=np.array([0, 0, 0]),
+        name="Mars",
+        mass=6.39e23
+    )
+    
+    Venus = Bodies(
+        position=np.array([-1.083732613923766e11, -2.011037351357945e11, 0]),
+        velocity=np.array([2.229340842795413e4, -9.349070226191618e3, 0]),
+        acceleration=np.array([0, 0, 0]),
+        name="Venus",
+        mass =4.9e24
+    )
+    
+    bodies = [Sol, Earth, Mars, Venus]
+    window = SystemAnimation(bodies)
     window.show()
+    
     sys.exit(app.exec_())
+    
+
+        
     

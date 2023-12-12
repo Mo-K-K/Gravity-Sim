@@ -27,18 +27,19 @@ class Bodies:
             raise ValueError("mass cannot be a negative value")
         self.mass = mass
         
-    def update(self, deltaT):
+    def update(self, deltaT, accelerate=0):
         '''updates the veloacity and position vectors given the new acceleration'''
-        
+        #using Verlet algorithm
         i = self.position + self.velocity*deltaT
-        j = self.velocity + self.acceleration*deltaT
+        j = self.velocity + accelerate*deltaT
         
         #update arrays
         self.position = i
         self.velocity = j
+        
         #print("hopefully updated the velocity and position of: ", self.name, "now is: ", self.velocity, self.position)
         
-    def gravacc(self, body):
+    def gravacc(self, body, sp = False):
         '''calculates new acceralation between object and body due to gravity'''
         
         r = self.position-body.position #vector between the bodies
@@ -48,7 +49,10 @@ class Bodies:
         else:
             mag_Acc = -(self.G*body.mass)/(mag_r**2)
             Acc = mag_Acc*((r)/(mag_r))
-        self.acceleration = Acc
+        if sp == False:
+            return Acc
+        elif sp == True:
+            self.acceleration = self.acceleration + Acc
         #print("updated the acceleration of: ", self.name)
         
         
