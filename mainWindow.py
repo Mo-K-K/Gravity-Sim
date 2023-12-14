@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QHBoxLayout, QLabel, QApplication, QMainWindow, QVBoxLayout, QPushButton, QWidget, QDialog, QApplication, QFileDialog, QLineEdit, QFormLayout
+from PyQt5.QtWidgets import QHBoxLayout, QLabel, QApplication, QMainWindow, QVBoxLayout, QPushButton, QWidget, QDialog, QApplication, QFileDialog, QLineEdit, QSlider
 from Secondwindow import *
 
 
@@ -22,7 +22,6 @@ class MainWindow(QMainWindow):
         self.Window = None
         self.filenames = []
         self.nbuttons = 5
-        self.bodies = []
         self.masses = []
         
         #Create menu bar with name "File" and sub menu "Add File" 
@@ -42,9 +41,13 @@ class MainWindow(QMainWindow):
         self.Label3 = QLabel("Mass: ")
         
         self.Text = QLineEdit()
+        self.Label4=QLabel("Time duration(seconds): ")
+        self.Text2 = QLineEdit()
         layout.addStretch()
         layout.addWidget(self.Label3)
         layout.addWidget(self.Text)
+        layout.addWidget(self.Label4)
+        layout.addWidget(self.Text2)
         layout.addStretch()
         
         
@@ -58,13 +61,11 @@ class MainWindow(QMainWindow):
         
     def launch(self):
         text = self.Text.text()
+        self.timepassed = int(self.Text2.text())
         self.masses = text.split(",")
         for x in range(len(self.masses)):
             self.masses[x] = float(self.masses[x])
-        self.GetInfoFromFile()
-        print(self.masses)
-        print(self.bodies)
-        if len(self.bodies) == len(self.masses):
+        if len(self.filenames) == len(self.masses):
             self.show_second()
         else:
             raise Exception("the incorrect number of masses entered")
@@ -72,7 +73,7 @@ class MainWindow(QMainWindow):
     def show_second(self):
         '''Opens the second window when the launch button is pressed'''
         if self.Window is None:
-            self.Window = secondWindow(name=self.bodies, num_buttons=self.nbuttons)
+            self.Window = secondWindow(name=self.filenames, timepassed = self.timepassed, masses =self.masses)
         self.Window.show()
            
     
@@ -88,38 +89,6 @@ class MainWindow(QMainWindow):
         for name in self.filenames:
             names = name[64:-4] + " " + names
         self.Label2.setText("Files selected: " + names)
-        
-    def GetInfoFromFile(self):
-        '''gets information from the selected file and produces an object.
-        This is done by calling the class Bodies'''
-        #pos is the initial positions of the body and vec are the initial velocites
-        for x in range(len(self.filenames)):
-            pos=np.array([0, 0, 0])
-            vec=np.array([0, 0, 0])
-            names = self.filenames[x]
-            name = names[64:-4]
-            m = self.masses[x]
-            with open("test/"+name+".txt") as file:
-                for line in file:
-                    if line[:4] == " X =":
-                        pos[0]=float(line[4:26])
-                        pos[1]=float(line[31:52])
-                        pos[2]=float(line[57:78])
-                    if line[:4] == " VX=":
-                        vec[0]=float(line[4:26])
-                        vec[1]=float(line[30:52])
-                        vec[2]=float(line[57:78])
-                        break
-                    
-                    
-            self.bodies.append(Bodies(
-                position=pos*1000,
-                velocity=vec*1000,
-                acceleration=np.array([0, 0, 0]),
-                name = name,
-                mass = m
-            ))
-            print(self.bodies[0].position)
         
 
      

@@ -6,8 +6,9 @@ import matplotlib.animation as animation
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import numpy as np
+import math
 
-from Bodies import Bodies
+from Particle import *
 
 import sys
 import numpy as np
@@ -20,21 +21,25 @@ import matplotlib.colors as mcolors
 
 
 class SystemAnimation(QMainWindow):
-    def __init__(self, bodies):
+    def __init__(self, fname, timepassed = 0, masses = []):
         super().__init__()
         #
-        self.nbodies = len(bodies)
+        self.nbodies = len(fname)
         #
-        self.bodies = bodies
+        self.filenames = fname
+        self.masses = masses
+        self.bodies=[]
+        self.timepassed = timepassed
         self.colours = self.randomisecolours(exclude='navy')
+        self.GetInfoFromFile()
+        
+        #print(self.bodies[0].velocity, bodies[1].velocity)
+        #print(self.bodies[0].position, bodies[1].position)
+        #print(self.bodies[0].acceleration, bodies[1].acceleration)
         self.initparticlesx = [self.bodies[i].position[0] for i in range(len(self.bodies))]
         self.initparticlesy = [self.bodies[j].position[1] for j in range(len(self.bodies))]
         
-        
-        self.ylim0 = min(self.initparticlesy)
-        self.ylim1 = max(self.initparticlesy)
-        self.xlim0 = min(self.initparticlesx)
-        self.xlim1 = max(self.initparticlesx)
+        self.limit = max(np.fabs(self.initparticlesy))*2.5
         
         self.initUI()
         
@@ -91,29 +96,59 @@ class SystemAnimation(QMainWindow):
         #plot particle with updated position
         self.ax.scatter(self.particlesx, self.particlesy, c='Red')
         #print(self.particlesx, self.particlesy)
-        self.ax.set_xlim(-5e11, 5e11)
-        self.ax.set_ylim(-5e11,5e11)
+        self.ax.set_xlim(-self.limit, self.limit)
+        self.ax.set_ylim(-self.limit,self.limit)
 
         self.canvas.draw()
+        
+    def GetInfoFromFile(self):
+        '''gets information from the selected file and produces an object.
+        This is done by calling the class Bodies'''
+        #pos is the initial positions of the body and vec are the initial velocites
+    
+        for x in range(len(self.filenames)):
+            pos1, pos2, pos3 = 0, 0, 0
+            vel1, vel2, vel3 = 0, 0, 0
+            names = self.filenames[x]
+            name = names[64:-4]
+            m = self.masses[x]
+            with open("test/"+name+".txt") as file:
+                for line in file:
+                    if line[:4] == " X =":
+                        pos1=float(line[4:26])
+                        pos2=float(line[30:52])
+                        pos3=float(line[57:78])
+                    if line[:4] == " VX=":
+                        vel1=float(line[4:26])
+                        vel2=float(line[30:52])
+                        vel3=float(line[57:78])
+                        break
+                    
+            pos = np.array([pos1*1e3, pos2*1e3, pos3*1e3], dtype=float) 
+            vel = np.array([vel1*1e3, vel2*1e3, vel3*1e3], dtype=float)  
+            self.bodies.append(Particle(
+                position=pos,
+                velocity=vel,
+                acceleration=np.array([0, 0, 0]),
+                name = name,
+                mass = m
+            ))
+            
 
     def updatenumbers(self):
-        '''
-        for i in range(len(self.bodies)):
-            self.bodies[i].gravacc(self.bodies[:1])
-            self.bodies[:i].gravacc(self.bodies[i])
-        for j in range(len(self.bodies)):
-            self.bodies[j].gravavv(self.bodies[j])
-        '''
-        
-        acc = 0
-        for i in range(self.nbodies):
-            for j in range(self.nbodies):
-                if i != j:
-                    self.bodies[i].gravacc(self.bodies[j], False)
-                    acc += self.bodies[i].acceleration
-            for x in range(200000):
-                self.bodies[i].update(6, accelerate = acc)
-            acc=0
+        acc=0
+        acceleration=[]
+        for h in range(2000):
+            for i in range(len(self.bodies)):
+                for j in range(len(self.bodies)):
+                    if i != j:
+                        self.bodies[i].updateGravitationalAcceleration(self.bodies[j])
+                        acc+=self.bodies[i].acceleration
+                acceleration.append(acc)
+                acc=0
+            for k in range(len(self.bodies)):
+                self.bodies[k].update(60, acceleration[k])
+            acceleration=[]
                     
             
         
@@ -121,15 +156,19 @@ class SystemAnimation(QMainWindow):
         self.particlesy = [self.bodies[j].position[1] for j in range(len(self.bodies))]
         
         #tranforms the axis to set the first body at the origin
-        self.particlesx=[0, self.particlesx[1]-self.initparticlesx[0], self.particlesx[2]-self.initparticlesx[0], self.particlesx[3]-self.initparticlesx[0]]
-        self.particlesy=[0, self.particlesy[1]-self.initparticlesy[0], self.particlesy[2]-self.initparticlesx[0], self.particlesx[3]-self.initparticlesy[0]]
+        
+        for k in range(1, self.nbodies-1):
+            self.particlesx[k]=self.particlesx[k]-self.initparticlesx[0]
+            self.particlesy[k]=self.particlesy[k]-self.initparticlesy[0]
+            
         
 
 if __name__ == "__main__":
     app=QApplication(sys.argv)
+    '''
     earthMass = 2.00e30
     earthRadius = 696340
-    Sol = Bodies(
+    Sol = Particle(
         position=np.array([-1.214048065520218e9, -4.013795987957321e8, 0]),
         velocity=np.array([8.012077096627646e-5, -1.271120897662364e-5, 0]),
         acceleration=np.array([0, 0, 0]),
@@ -139,7 +178,7 @@ if __name__ == "__main__":
     satPosition = earthRadius + 1.49e11
     satVelocity = np.sqrt(Sol.G * Sol.mass / satPosition)
 
-    Earth = Bodies(
+    Earth = Particle(
         position=np.array([5.361071004514999e10, 1.365682433995717e11, 0]),
         velocity=np.array([-2.813245183269979e4, 1.094520152946133e4, 0]),
         acceleration=np.array([0, 0, 0]),
@@ -147,7 +186,7 @@ if __name__ == "__main__":
         mass=5.9e24
     )
     
-    Mars = Bodies(
+    Mars = Particle(
         position=np.array([-7.816400366646364e10, 7.443698280209219e10, 0]),
         velocity=np.array([-2.453487660910571e4, -2.530241055411627e4, 0]),
         acceleration=np.array([0, 0, 0]),
@@ -155,7 +194,7 @@ if __name__ == "__main__":
         mass=6.39e23
     )
     
-    Venus = Bodies(
+    Venus = Particle(
         position=np.array([-1.083732613923766e11, -2.011037351357945e11, 0]),
         velocity=np.array([2.229340842795413e4, -9.349070226191618e3, 0]),
         acceleration=np.array([0, 0, 0]),
@@ -163,12 +202,14 @@ if __name__ == "__main__":
         mass =4.9e24
     )
     
-    bodies = [Sol, Earth, Mars, Venus]
-    window = SystemAnimation(bodies)
+    #bodies = [Sol, Earth, Mars, Venus]
+    fname = ['C:/Users/rafeh/Desktop/Physics/Programming/PHYS281/Project/test/Sol.txt', 'C:/Users/rafeh/Desktop/Physics/Programming/PHYS281/Project/test/Earth.txt']
+    masses = [2e30, 5.9e24]
+    window = SystemAnimation(fname, 5000, masses)
     window.show()
     
     sys.exit(app.exec_())
-    
+    '''
 
         
     
