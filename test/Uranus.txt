@@ -1,0 +1,209 @@
+*******************************************************************************
+ Revised: September 30, 2021           Uranus                               799
+ 
+ PHYSICAL DATA:
+  Mass x10^24 (kg)      = 86.813          Density (g/cm^3)       =  1.271
+  Equat. radius (1 bar) = 25559+-4 km     Polar radius (km)      = 24973+-20
+  Vol. Mean Radius (km) = 25362+-12       Flattening             =  0.02293
+  Geometric Albedo      = 0.51
+  Sid. rot. period (III)= 17.24+-0.01 h   Sid. rot. rate (rad/s) = -0.000101237
+  Mean solar day, h     =~17.24           Rocky core mass (Mc/M) =  0.0012        
+  GM (km^3/s^2)         = 5793951.256     GM 1-sigma (km^3/s^2)  = +-4.3 
+  Equ. grav, ge (m/s^2) =  8.87           Pol. grav, gp (m/s^2)  =   9.19+-0.02
+  Visual magnitude V(1,0)= -7.11
+  Vis. mag. (opposition)=  +5.52          Obliquity to orbit     = 97.77 deg
+  Sidereal orbit period = 84.0120465 y    Sidereal orbit period  = 30685.4 d
+  Mean daily motion     = 0.01176904 dg/d Mean orbit velocity    =  6.8 km/s
+  Atmos. temp. (1 bar)  =  76+-2 K        Escape speed, km/s     =  21.3           
+  Aroche(ice)/Rp        =  2.20           Hill's sphere rad., Rp = 2700
+                                 Perihelion   Aphelion    Mean
+  Solar Constant (W/m^2)         4.09         3.39        3.71
+  Maximum Planetary IR (W/m^2)   0.72         0.55        0.63
+  Minimum Planetary IR (W/m^2)   0.72         0.55        0.63
+*******************************************************************************
+
+
+*******************************************************************************
+Ephemeris / WWW_USER Wed Dec 13 12:19:57 2023 Pasadena, USA      / Horizons
+*******************************************************************************
+Target body name: Uranus (799)                    {source: ura116}
+Center body name: Solar System Barycenter (0)     {source: DE441}
+Center-site name: BODY CENTER
+*******************************************************************************
+Start time      : A.D. 2023-Dec-01 00:00:00.0000 TDB
+Stop  time      : A.D. 2023-Dec-31 00:00:00.0000 TDB
+Step-size       : 1440 minutes
+*******************************************************************************
+Center geodetic : 0.0, 0.0, 0.0                   {E-lon(deg),Lat(deg),Alt(km)}
+Center cylindric: 0.0, 0.0, 0.0                   {E-lon(deg),Dxy(km),Dz(km)}
+Center radii    : (undefined)
+Output units    : KM-S
+Calendar mode   : Mixed Julian/Gregorian
+Output type     : GEOMETRIC cartesian states
+Output format   : 2 (position and velocity)
+Reference frame : Ecliptic of J2000.0
+*******************************************************************************
+JDTDB
+   X     Y     Z
+   VX    VY    VZ
+*******************************************************************************
+$$SOE
+2460279.500000000 = A.D. 2023-Dec-01 00:00:00.0000 TDB 
+ X = 1.848853093738617E+09 Y = 2.277854819907957E+09 Z =-1.549222418446136E+07
+ VX=-5.337553685933855E+00 VY= 3.974346148059518E+00 VZ= 8.376262899664888E-02
+2460280.500000000 = A.D. 2023-Dec-02 00:00:00.0000 TDB 
+ X = 1.848391892618608E+09 Y = 2.278198159946374E+09 Z =-1.548497764276516E+07
+ VX=-5.338332793317711E+00 VY= 3.973320264744615E+00 VZ= 8.394230425363602E-02
+2460281.500000000 = A.D. 2023-Dec-03 00:00:00.0000 TDB 
+ X = 1.847930629162262E+09 Y = 2.278541408256832E+09 Z =-1.547773049885023E+07
+ VX=-5.339135963936909E+00 VY= 3.972253138080780E+00 VZ= 8.378165695759399E-02
+2460282.500000000 = A.D. 2023-Dec-04 00:00:00.0000 TDB 
+ X = 1.847469280897939E+09 Y = 2.278884568645806E+09 Z =-1.547049038272488E+07
+ VX=-5.340177439055415E+00 VY= 3.971276813735476E+00 VZ= 8.389925971282319E-02
+2460283.500000000 = A.D. 2023-Dec-05 00:00:00.0000 TDB 
+ X = 1.847007859144053E+09 Y = 2.279227641924180E+09 Z =-1.546323356008446E+07
+ VX=-5.340862103466737E+00 VY= 3.970221649218747E+00 VZ= 8.401848604010054E-02
+2460284.500000000 = A.D. 2023-Dec-06 00:00:00.0000 TDB 
+ X = 1.846546374870567E+09 Y = 2.279570623204231E+09 Z =-1.545597814263463E+07
+ VX=-5.341682612786815E+00 VY= 3.969169457024030E+00 VZ= 8.394473148836834E-02
+2460285.500000000 = A.D. 2023-Dec-07 00:00:00.0000 TDB 
+ X = 1.846084818661545E+09 Y = 2.279913514660016E+09 Z =-1.544872303100419E+07
+ VX=-5.342442238770006E+00 VY= 3.968118675287044E+00 VZ= 8.397135809598733E-02
+2460286.500000000 = A.D. 2023-Dec-08 00:00:00.0000 TDB 
+ X = 1.845623196059333E+09 Y = 2.280256313724029E+09 Z =-1.544147789356279E+07
+ VX=-5.343352964231672E+00 VY= 3.967065122722955E+00 VZ= 8.374410860611570E-02
+2460287.500000000 = A.D. 2023-Dec-09 00:00:00.0000 TDB 
+ X = 1.845161481390729E+09 Y = 2.280599026478859E+09 Z =-1.543423951424718E+07
+ VX=-5.344441994946663E+00 VY= 3.966101597272127E+00 VZ= 8.389054115362771E-02
+2460288.500000000 = A.D. 2023-Dec-10 00:00:00.0000 TDB 
+ X = 1.844699690714087E+09 Y = 2.280941653137028E+09 Z =-1.542698095638180E+07
+ VX=-5.345119262197728E+00 VY= 3.965050559768178E+00 VZ= 8.404815683855316E-02
+2460289.500000000 = A.D. 2023-Dec-11 00:00:00.0000 TDB 
+ X = 1.844237835854877E+09 Y = 2.281284188060656E+09 Z =-1.541972403884757E+07
+ VX=-5.346017848327967E+00 VY= 3.964016564405876E+00 VZ= 8.397964667080093E-02
+2460290.500000000 = A.D. 2023-Dec-12 00:00:00.0000 TDB 
+ X = 1.843775901998076E+09 Y = 2.281626635585566E+09 Z =-1.541246081056929E+07
+ VX=-5.346842366760822E+00 VY= 3.962998919538236E+00 VZ= 8.415576818339709E-02
+2460291.500000000 = A.D. 2023-Dec-13 00:00:00.0000 TDB 
+ X = 1.843313905642155E+09 Y = 2.281968992453697E+09 Z =-1.540518868688428E+07
+ VX=-5.347553084447763E+00 VY= 3.961930180717178E+00 VZ= 8.414179380531617E-02
+2460292.500000000 = A.D. 2023-Dec-14 00:00:00.0000 TDB 
+ X = 1.842851840599073E+09 Y = 2.282311258798652E+09 Z =-1.539791608630884E+07
+ VX=-5.348346234768343E+00 VY= 3.960896196712219E+00 VZ= 8.424491986798444E-02
+2460293.500000000 = A.D. 2023-Dec-15 00:00:00.0000 TDB 
+ X = 1.842389720432579E+09 Y = 2.282653432208094E+09 Z =-1.539063885409343E+07
+ VX=-5.348895548718792E+00 VY= 3.959776268382659E+00 VZ= 8.411960535765250E-02
+2460294.500000000 = A.D. 2023-Dec-16 00:00:00.0000 TDB 
+ X = 1.841927537580999E+09 Y = 2.282995510101945E+09 Z =-1.538338764236009E+07
+ VX=-5.349875602232707E+00 VY= 3.958720011264432E+00 VZ= 8.377857824136159E-02
+2460295.500000000 = A.D. 2023-Dec-17 00:00:00.0000 TDB 
+ X = 1.841465261659231E+09 Y = 2.283337501292249E+09 Z =-1.537614655865645E+07
+ VX=-5.350878834712578E+00 VY= 3.957729324308854E+00 VZ= 8.386779540306000E-02
+2460296.500000000 = A.D. 2023-Dec-18 00:00:00.0000 TDB 
+ X = 1.841002910171851E+09 Y = 2.283679403789375E+09 Z =-1.536890221681368E+07
+ VX=-5.351739874622279E+00 VY= 3.956685443093914E+00 VZ= 8.379731951530167E-02
+2460297.500000000 = A.D. 2023-Dec-19 00:00:00.0000 TDB 
+ X = 1.840540475039645E+09 Y = 2.284021218344113E+09 Z =-1.536166219512880E+07
+ VX=-5.352769458028085E+00 VY= 3.955694876758420E+00 VZ= 8.385248528224754E-02
+2460298.500000000 = A.D. 2023-Dec-20 00:00:00.0000 TDB 
+ X = 1.840077960344764E+09 Y = 2.284362946270615E+09 Z =-1.535441058637869E+07
+ VX=-5.353570663237999E+00 VY= 3.954661090256213E+00 VZ= 8.395202510675293E-02
+2460299.500000000 = A.D. 2023-Dec-21 00:00:00.0000 TDB 
+ X = 1.839615369878486E+09 Y = 2.284704585276734E+09 Z =-1.534715767673314E+07
+ VX=-5.354570320541963E+00 VY= 3.953664643912823E+00 VZ= 8.400461518104851E-02
+2460300.500000000 = A.D. 2023-Dec-22 00:00:00.0000 TDB 
+ X = 1.839152698997257E+09 Y = 2.285046138980770E+09 Z =-1.533988463055003E+07
+ VX=-5.355309852990971E+00 VY= 3.952650562230462E+00 VZ= 8.434830564091866E-02
+2460301.500000000 = A.D. 2023-Dec-23 00:00:00.0000 TDB 
+ X = 1.838689980255566E+09 Y = 2.285387599538096E+09 Z =-1.533259681523800E+07
+ VX=-5.355830149348600E+00 VY= 3.951528023442289E+00 VZ= 8.425679236406713E-02
+2460302.500000000 = A.D. 2023-Dec-24 00:00:00.0000 TDB 
+ X = 1.838227198386439E+09 Y = 2.285728966123800E+09 Z =-1.532532396409345E+07
+ VX=-5.356721071712533E+00 VY= 3.950485966896824E+00 VZ= 8.415669813638105E-02
+2460303.500000000 = A.D. 2023-Dec-25 00:00:00.0000 TDB 
+ X = 1.837764344118012E+09 Y = 2.286070242662582E+09 Z =-1.531805207799804E+07
+ VX=-5.357480315614929E+00 VY= 3.949426371469571E+00 VZ= 8.414233056758769E-02
+2460304.500000000 = A.D. 2023-Dec-26 00:00:00.0000 TDB 
+ X = 1.837301420483667E+09 Y = 2.286411427421687E+09 Z =-1.531078902059531E+07
+ VX=-5.358398843063264E+00 VY= 3.948384840641952E+00 VZ= 8.401321958432728E-02
+2460305.500000000 = A.D. 2023-Dec-27 00:00:00.0000 TDB 
+ X = 1.836838416010728E+09 Y = 2.286752524270328E+09 Z =-1.530352488534212E+07
+ VX=-5.359226614280385E+00 VY= 3.947358316798041E+00 VZ= 8.413061738293481E-02
+2460306.500000000 = A.D. 2023-Dec-28 00:00:00.0000 TDB 
+ X = 1.836375347336796E+09 Y = 2.287093529250048E+09 Z =-1.529626170758951E+07
+ VX=-5.360018084547132E+00 VY= 3.946284260608234E+00 VZ= 8.396065573826972E-02
+2460307.500000000 = A.D. 2023-Dec-29 00:00:00.0000 TDB 
+ X = 1.835912194040001E+09 Y = 2.287434445375719E+09 Z =-1.528900994660199E+07
+ VX=-5.361120579182320E+00 VY= 3.945306306778881E+00 VZ= 8.400274499203553E-02
+2460308.500000000 = A.D. 2023-Dec-30 00:00:00.0000 TDB 
+ X = 1.835448960123644E+09 Y = 2.287775275948372E+09 Z =-1.528173947179055E+07
+ VX=-5.361819502909404E+00 VY= 3.944265750108445E+00 VZ= 8.422926015292709E-02
+2460309.500000000 = A.D. 2023-Dec-31 00:00:00.0000 TDB 
+ X = 1.834985668433526E+09 Y = 2.288116013786248E+09 Z =-1.527446583092368E+07
+ VX=-5.362572644832341E+00 VY= 3.943193719168101E+00 VZ= 8.413721544263297E-02
+$$EOE
+*******************************************************************************
+ 
+TIME
+
+  Barycentric Dynamical Time ("TDB" or T_eph) output was requested. This
+continuous coordinate time is equivalent to the relativistic proper time
+of a clock at rest in a reference frame co-moving with the solar system
+barycenter but outside the system's gravity well. It is the independent
+variable in the solar system relativistic equations of motion.
+
+  TDB runs at a uniform rate of one SI second per second and is independent
+of irregularities in Earth's rotation.
+ 
+CALENDAR SYSTEM
+
+  Mixed calendar mode was active such that calendar dates after AD 1582-Oct-15
+(if any) are in the modern Gregorian system. Dates prior to 1582-Oct-5 (if any)
+are in the Julian calendar system, which is automatically extended for dates
+prior to its adoption on 45-Jan-1 BC.  The Julian calendar is useful for
+matching historical dates. The Gregorian calendar more accurately corresponds
+to the Earth's orbital motion and seasons. A "Gregorian-only" calendar mode is
+available if such physical events are the primary interest.
+
+REFERENCE FRAME AND COORDINATES
+
+  Ecliptic at the standard reference epoch
+
+    Reference epoch: J2000.0
+    X-Y plane: adopted Earth orbital plane at the reference epoch
+               Note: IAU76 obliquity of 84381.448 arcseconds wrt ICRF X-Y plane
+    X-axis   : ICRF
+    Z-axis   : perpendicular to the X-Y plane in the directional (+ or -) sense
+               of Earth's north pole at the reference epoch.
+
+  Symbol meaning:
+
+    JDTDB    Julian Day Number, Barycentric Dynamical Time
+      X      X-component of position vector (km)
+      Y      Y-component of position vector (km)
+      Z      Z-component of position vector (km)
+      VX     X-component of velocity vector (km/sec)                           
+      VY     Y-component of velocity vector (km/sec)                           
+      VZ     Z-component of velocity vector (km/sec)                           
+
+ABERRATIONS AND CORRECTIONS
+
+ Geometric state vectors have NO corrections or aberrations applied.
+
+Computations by ...
+
+    Solar System Dynamics Group, Horizons On-Line Ephemeris System
+    4800 Oak Grove Drive, Jet Propulsion Laboratory
+    Pasadena, CA  91109   USA
+
+    General site: https://ssd.jpl.nasa.gov/
+    Mailing list: https://ssd.jpl.nasa.gov/email_list.html
+    System news : https://ssd.jpl.nasa.gov/horizons/news.html
+    User Guide  : https://ssd.jpl.nasa.gov/horizons/manual.html
+    Connect     : browser        https://ssd.jpl.nasa.gov/horizons/app.html#/x
+                  API            https://ssd-api.jpl.nasa.gov/doc/horizons.html
+                  command-line   telnet ssd.jpl.nasa.gov 6775
+                  e-mail/batch   https://ssd.jpl.nasa.gov/ftp/ssd/hrzn_batch.txt
+                  scripts        https://ssd.jpl.nasa.gov/ftp/ssd/SCRIPTS
+    Author      : Jon.D.Giorgini@jpl.nasa.gov
+*******************************************************************************
