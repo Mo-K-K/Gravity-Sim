@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import numpy as np
 import math
+import copy
 
 from Particle import *
 
@@ -32,6 +33,13 @@ class SystemAnimation(QMainWindow):
         self.timepassed = timepassed
         self.colours = self.randomisecolours(exclude='navy')
         self.GetInfoFromFile()
+        self.Data = []
+        self.time = 0
+        self.BData =[]
+        self.tdata = []
+        self.xdata = []
+        self.ydata = []
+        self.zdata = []
         
         #print(self.bodies[0].velocity, bodies[1].velocity)
         #print(self.bodies[0].position, bodies[1].position)
@@ -98,7 +106,18 @@ class SystemAnimation(QMainWindow):
         #print(self.particlesx, self.particlesy)
         self.ax.set_xlim(-self.limit, self.limit)
         self.ax.set_ylim(-self.limit,self.limit)
-
+            
+        if self.time == 6000000:
+            for x in range(len(self.Data)):
+                self.tdata.append(self.Data[x][0])
+                self.xdata.append(self.Data[x][1])
+                self.ydata.append(self.Data[x][2])
+                self.zdata.append(self.Data[x][3])
+            Data = [self.tdata, self.xdata, self.ydata, self.zdata]
+            with open('Data.txt', 'w') as file:
+                for item in Data:
+                    file.write("%s\n" % item)
+                
         self.canvas.draw()
         
     def GetInfoFromFile(self):
@@ -136,25 +155,66 @@ class SystemAnimation(QMainWindow):
             
 
     def updatenumbers(self):
+        method = 'V'
         acc=0
         acceleration=[]
-        for h in range(2000):
-            for i in range(len(self.bodies)):
-                for j in range(len(self.bodies)):
-                    if i != j:
-                        self.bodies[i].updateGravitationalAcceleration(self.bodies[j])
-                        acc+=self.bodies[i].acceleration
-                acceleration.append(acc)
+        self.BData=[]
+        if method == 'ER':
+            for x in range(2000):
+                for i in range(len(self.bodies)):
+                    for j in range(len(self.bodies)):
+                        if i!=j:
+                            self.bodies[i].updateGravitationalAcceleration(self.bodies[j])
+                            acc += self.bodies[i].acceleration
+                    acceleration.append(acc)
+                    acc = 0
+                for k in range(len(self.bodies)):
+                    self.bodies[k].update(60/2, acceleration[k], 'E')
+                acceleration=[]
                 acc=0
-            for k in range(len(self.bodies)):
-                self.bodies[k].update(60, acceleration[k])
-            acceleration=[]
+                for a in range(len(self.bodies)):
+                    for b in range(len(self.bodies)):
+                        if a!=b:
+                            self.bodies[a].updateGravitationalAcceleration(self.bodies[b])
+                            acc += self.bodies[a].acceleration
+                    acceleration.append(acc)
+                    acc = 0
+                for c in range(len(self.bodies)):
+                    self.bodies[c].update(60, acceleration[c], 'E')
+                acceleration=[]
+                acc=0
+                self.time += 60
+                     
+        else: 
+            for h in range(2000):
+                for x in range(len(self.bodies)):
+                    acceleration0=[self.bodies[x].acceleration for x in range(len(self.bodies))]
+                for i in range(len(self.bodies)):
+                    for j in range(len(self.bodies)):
+                        if i != j:
+                            self.bodies[i].updateGravitationalAcceleration(self.bodies[j])
+                            acc+=self.bodies[i].acceleration
+                    acceleration.append(acc)
+                    acc=0
+                for k in range(len(self.bodies)):
+                    if method == 'V':
+                        self.bodies[k].update(60, acceleration[k], method, acceleration0[k])
+                    else:
+                        self.bodies[k].update(60, acceleration[k], method)
+                self.time += 60
+                acceleration=[]
+                acceleration0=[]
                     
             
         
         self.particlesx = [self.bodies[i].position[0] for i in range(len(self.bodies))]
         self.particlesy = [self.bodies[j].position[1] for j in range(len(self.bodies))]
         
+        self.BData=[self.time]
+        for x in range(0, 3):
+            self.BData.append(self.bodies[0].position[x])
+        self.Data.append(self.BData)
+
         #tranforms the axis to set the first body at the origin
         
         for k in range(1, self.nbodies-1):

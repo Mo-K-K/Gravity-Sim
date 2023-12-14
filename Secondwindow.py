@@ -51,7 +51,7 @@ class secondWindow(QMainWindow):
       
     
     def LaunchGraphOfForce(self, index):
-        rand=Animate(self.name)
+        rand=Animate(self.name, self.masses, index)
         rand.start()
     
     def DiagramOfBodies(self):
@@ -67,9 +67,11 @@ class secondWindow(QMainWindow):
     
 class Animate:
 
-    def __init__(self, filnames):
+    def __init__(self, filenames, masses, index):
         # Create figure for plotting
-        self.filenames = filenames
+        self.index = index
+        self.name = filenames
+        self.masses = masses
         self.fig = plt.figure()
         self.ax1 = self.fig.add_subplot(3, 1, 1)
         self.ax2 = self.fig.add_subplot(3, 1, 2)
@@ -81,16 +83,20 @@ class Animate:
         self.xs2 = []
         self.ys2 = []
         self.readings = 30
+        self.bodies=[]
+        self.GetInfoFromFile()
 
     # This function is called periodically from FuncAnimation
     def _update(self, i):
 
         # Read temperature (Celsius) from TMP102
-        temp_c = random()
+        self.updatenumbers()
 
         # Add x and y to lists
         self.xs.append(i)
-        self.ys.append(temp_c)
+        self.ys.append(self.bodies[0].position[0])
+        self.ys1.append(self.bodies[0].position[1])
+        self.ys2.append(self.bodies[0].position[2])
 
         # Limit x and y lists to 20 items
         #self.xs = self.xs[-self.readings:]
@@ -101,8 +107,8 @@ class Animate:
         self.ax2.clear()
         self.ax3.clear()
         self.ax1.plot(self.xs, self.ys)
-        self.ax2.plot(self.xs, self.ys)
-        self.ax3.plot(self.xs, self.ys)
+        self.ax2.plot(self.xs, self.ys1)
+        self.ax3.plot(self.xs, self.ys2)
 
         # Format plot
         plt.xticks(rotation=45, ha='right')
@@ -143,6 +149,21 @@ class Animate:
                 name = name,
                 mass = m
             ))
+            
+    def updatenumbers(self):
+        acc=0
+        acceleration=[]
+        for h in range(2000):
+            for i in range(len(self.bodies)):
+                for j in range(len(self.bodies)):
+                    if i != j:
+                        self.bodies[i].updateGravitationalAcceleration(self.bodies[j])
+                        acc+=self.bodies[i].acceleration
+                acceleration.append(acc)
+                acc=0
+            for k in range(len(self.bodies)):
+                self.bodies[k].update(60, acceleration[k], 'E')
+            acceleration=[]
     
 
 if __name__== '__main__':
