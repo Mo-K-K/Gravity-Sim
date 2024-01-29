@@ -22,21 +22,36 @@ class Particle:
         
     
     def SetMass(self, mass):
+        '''helps with debugging as it creates f strings'''
         if mass < 0:
             raise ValueError("mass cannot be a negative value")
         self.mass = mass
 
-    def update(self, deltaT, acc):
+    def update(self, deltaT=5, acc=0, method='E', acc0 = 0):
         '''
         updates the velocity and position vectors given the acceleration over the course of time deltatT
         '''
-        #initalise variables for position and velocity after deltaT
-        i = self.position + self.velocity*deltaT
-        j = self.velocity + acc*deltaT
+        if method == 'E':
+            #initalise variables for position and velocity after deltaT
+            i = self.position + self.velocity*deltaT
+            j = self.velocity + acc*deltaT
         
-        #update arrays
-        self.position = i
-        self.velocity = j
+            #update arrays
+            self.position = i
+            self.velocity = j
+        elif method == 'EC':
+            j=  self.velocity+acc*deltaT
+            i = self.position +j*deltaT
+            
+            self.position = i
+            self.velocity = j
+        elif method =='V':
+            i = self.position +self.velocity*deltaT +0.5*self.acceleration*(deltaT**2)
+            j = self.velocity+0.5*(acc + acc0)*deltaT
+            
+            self.position = i
+            self.velocity = j
+            
         
     def updateGravitationalAcceleration(self, body):
         '''calculates acceleration of the object due to another body'''
@@ -48,7 +63,7 @@ class Particle:
         else:
             mag_Acc = -(self.G*body.mass)/(mag_r**2)
             Acc = mag_Acc*((r)/(mag_r))
-        
+
         self.acceleration = Acc
         
     def kineticEnergy(self):

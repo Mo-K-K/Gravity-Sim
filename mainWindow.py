@@ -38,8 +38,10 @@ class MainWindow(QMainWindow):
         self.Label2 = QLabel("files selected: ")
         layout.addWidget(self.Label2)
         
+        #label showing mass
         self.Label3 = QLabel("Mass: ")
         
+        #Input the time duration
         self.Text = QLineEdit()
         self.Label4=QLabel("Time duration(seconds): ")
         self.Text2 = QLineEdit()
@@ -60,6 +62,7 @@ class MainWindow(QMainWindow):
         self.Button.clicked.connect(self.launch)
         
     def launch(self):
+        '''launches the second window with necessary parameters and checks for masses'''
         text = self.Text.text()
         self.timepassed = int(self.Text2.text())
         self.masses = text.split(",")

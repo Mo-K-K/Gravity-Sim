@@ -36,10 +36,8 @@ class SystemAnimation(QMainWindow):
         self.Data = []
         self.time = 0
         self.BData =[]
-        self.tdata = []
-        self.xdata = []
-        self.ydata = []
-        self.zdata = []
+        self.t = 10
+        
         
         #print(self.bodies[0].velocity, bodies[1].velocity)
         #print(self.bodies[0].position, bodies[1].position)
@@ -106,17 +104,7 @@ class SystemAnimation(QMainWindow):
         #print(self.particlesx, self.particlesy)
         self.ax.set_xlim(-self.limit, self.limit)
         self.ax.set_ylim(-self.limit,self.limit)
-            
-        if self.time == 6000000:
-            for x in range(len(self.Data)):
-                self.tdata.append(self.Data[x][0])
-                self.xdata.append(self.Data[x][1])
-                self.ydata.append(self.Data[x][2])
-                self.zdata.append(self.Data[x][3])
-            Data = [self.tdata, self.xdata, self.ydata, self.zdata]
-            with open('Data.txt', 'w') as file:
-                for item in Data:
-                    file.write("%s\n" % item)
+
                 
         self.canvas.draw()
         
@@ -155,7 +143,7 @@ class SystemAnimation(QMainWindow):
             
 
     def updatenumbers(self):
-        method = 'V'
+        method = 'E'
         acc=0
         acceleration=[]
         self.BData=[]
@@ -169,7 +157,7 @@ class SystemAnimation(QMainWindow):
                     acceleration.append(acc)
                     acc = 0
                 for k in range(len(self.bodies)):
-                    self.bodies[k].update(60/2, acceleration[k], 'E')
+                    self.bodies[k].update(600/2, acceleration[k], 'E')
                 acceleration=[]
                 acc=0
                 for a in range(len(self.bodies)):
@@ -180,7 +168,7 @@ class SystemAnimation(QMainWindow):
                     acceleration.append(acc)
                     acc = 0
                 for c in range(len(self.bodies)):
-                    self.bodies[c].update(60, acceleration[c], 'E')
+                    self.bodies[c].update(600, acceleration[c], 'E')
                 acceleration=[]
                 acc=0
                 self.time += 60
@@ -198,9 +186,9 @@ class SystemAnimation(QMainWindow):
                     acc=0
                 for k in range(len(self.bodies)):
                     if method == 'V':
-                        self.bodies[k].update(60, acceleration[k], method, acceleration0[k])
+                        self.bodies[k].update(600, acceleration[k], method, acceleration0[k])
                     else:
-                        self.bodies[k].update(60, acceleration[k], method)
+                        self.bodies[k].update(600, acceleration[k], method)
                 self.time += 60
                 acceleration=[]
                 acceleration0=[]
